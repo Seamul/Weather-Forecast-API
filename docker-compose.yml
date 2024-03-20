@@ -1,0 +1,39 @@
+version: '3.4'
+
+services:
+
+  # region Postgres & MongoDB
+  db:
+    hostname: django_postgres
+    container_name: django_postgres
+    image: postgres:13.0
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - /var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  api:
+    image: django_api
+    hostname: django_api
+    container_name: django_api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./src:/app
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py loaddata initial_data.json &&
+             python manage.py runserver 0.0.0.0:8700
+             "
+    ports:
+      - 8700:8700
+    depends_on:
+    - db
+
+
+ 
