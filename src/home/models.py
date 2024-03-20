@@ -17,6 +17,9 @@ class District(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
 
+class ForecastDataManager(models.Manager):
+    pass
+
 class ForecastData(models.Model):
     date = models.CharField(max_length=20, null=True)
     temperature_2m = models.CharField(max_length=20, null=True)
@@ -26,15 +29,10 @@ class ForecastData(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
-    _instance = None  # Class-level variable to hold the single instance
+    objects = ForecastDataManager()
 
-    def __new__(cls, *args, **kwargs):
-        if not cls._instance:
-            cls._instance = super().__new__(cls, *args, **kwargs)
-        return cls._instance
+    class Meta:
+        verbose_name_plural = 'ForecastData'
 
-    @classmethod
-    def get_instance(cls):
-        if not cls._instance:
-            cls._instance = cls()
-        return cls._instance
+    def __str__(self):
+        return f'{self.date} - {self.location_name}'
