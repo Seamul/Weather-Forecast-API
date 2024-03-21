@@ -1,4 +1,4 @@
-Certainly! Below, I'll enhance the README with details about each API endpoint:
+
 
 ---
 
