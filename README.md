@@ -59,6 +59,31 @@ This API provides endpoints to retrieve information about districts in Banglades
 
 6. **Access the API:**
    Open your web browser and go to `http://127.0.0.1:8000/` to access the API endpoints.
+   **Endpoint Description:**
+
+   **GET /api/update_forecast_data/**
+   
+   **Purpose:**
+   
+   This endpoint triggers an update of forecast data. The process may take some time as it involves fetching and updating the forecast data. While ideally suited for automation, this functionality can also be initiated manually for simplicity.
+   
+   **Implementation Details:**
+   
+   To ensure timely updates, the endpoint is designed to integrate with Celery and Celery Beat. This allows for scheduled execution, ensuring that forecast data is updated regularly, ideally on a daily basis. However, for simplicity, manual invocation is also supported.
+   
+   **Usage:**
+   
+   - **Manual Invocation:** Send a GET request to the specified endpoint to trigger the update process manually.
+     
+     Example: `GET /api/update_forecast_data/`
+     
+   - **Automated Execution:** With Celery and Celery Beat configured, the endpoint will be automatically invoked according to the specified schedule.
+   
+   **Note:** The update process may take some time to complete, depending on various factors such as data availability and processing speed. Therefore, patience is advised during execution.
+   
+   **Recommendation:**
+   
+   For optimal performance and reliability, it is recommended to configure Celery and Celery Beat to handle automated updates. This ensures timely and consistent updates of forecast data without manual intervention.
 
 ## API Endpoints
 
