@@ -68,16 +68,19 @@ class UpdateForcastData(APIView):
         districts_data = self.get_districts_data()
 
         # Set up caching and retrying mechanisms
-        cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
+        cache_session = requests_cache.CachedSession(
+            '.cache', expire_after=3600)
         retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
 
         # Create the weather API client and data factory
         openmeteo_api_client = OpenMeteoApiClient(session=retry_session)
-        weather_data_factory = WeatherDataFactory(api_client=openmeteo_api_client)
+        weather_data_factory = WeatherDataFactory(
+            api_client=openmeteo_api_client)
 
         # Loop through districts and fetch weather data
         for district_data in districts_data:
-            forecast_meta_data = self.get_or_create_forecast_meta_data(district_data)
+            forecast_meta_data = self.get_or_create_forecast_meta_data(
+                district_data)
             self.save_weather_data(weather_data_factory, forecast_meta_data)
 
         return Response({"message": "Forecast data saved successfully"})
