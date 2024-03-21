@@ -22,14 +22,10 @@ class District(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
 
-class ForecastDataManager(models.Manager):
-    pass
-
-
 class ForecastMetaData(models.Model):
     latitude = models.CharField(max_length=20, null=True)
     longitude = models.CharField(max_length=20, null=True)
-    location_name = models.CharField(max_length=40, null=True)
+    location_name = models.CharField(max_length=40, null=True, unique=True)
     average_temperature = models.FloatField(null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
@@ -48,11 +44,9 @@ class ForecastData(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
-    objects = ForecastDataManager()
-
     class Meta:
         verbose_name_plural = 'ForecastData'
+        unique_together = [['forecast_meta_data', 'date']]
 
     def __str__(self):
         return f'{self.date}'
-
