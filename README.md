@@ -32,7 +32,7 @@ This API provides endpoints to retrieve information about districts in Banglades
 
 1. **Clone the Repository:**
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/Seamul/Weather-Forecast-API.git
    cd Weather-Forecast-API
 
    ```
