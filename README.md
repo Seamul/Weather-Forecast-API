@@ -56,13 +56,8 @@ This API provides endpoints to retrieve information about districts in Banglades
    docker-compose up initial_data.json
    ```
 
-6. **Update Forecast Data (Optional):**
-   Before accessing other API endpoints, you need to update the forecast data in your local DB using endpoint
-   ```bash
-   GET http://127.0.0.1:8000//api/update_forcast_data/
-   ```
 
-7. **Access the API:**
+6. **Access the API:**
    Open your web browser and go to `http://127.0.0.1:8000/` to access the API endpoints.
 
 ## API Endpoints
