@@ -53,7 +53,7 @@ This API provides endpoints to retrieve information about districts in Banglades
 
 5. **Load Initial Data:**
    ```bash
-   docker-compose up initial_data.json
+   docker-compose up <to load initial_data.json>
    ```
 
 
