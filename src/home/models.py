@@ -1,6 +1,9 @@
 from django.db import models
-
+from django.db.models import Avg, FloatField
 # Create your models here.
+from django.db.models.functions import Cast
+from django.db import models
+from django.db.models import Avg
 
 
 class TestModel(models.Model):
@@ -20,12 +23,18 @@ class District(models.Model):
 class ForecastDataManager(models.Manager):
     pass
 
-class ForecastData(models.Model):
-    date = models.CharField(max_length=20, null=True)
-    temperature_2m = models.CharField(max_length=20, null=True)
+class ForecastMetaData(models.Model):
     latitude = models.CharField(max_length=20, null=True)
     longitude = models.CharField(max_length=20, null=True)
     location_name = models.CharField(max_length=40, null=True)
+    average_temperature = models.FloatField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    #TODO: unique togather and singleton pattern,need to create ForecastData object using signal
+class ForecastData(models.Model):
+    forecast_meta_data=models.ForeignKey(ForecastMetaData, on_delete=models.CASCADE, related_name="forecast_meta_data", null=True)
+    date = models.CharField(max_length=20, null=True)
+    temperature_2m = models.FloatField(null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
@@ -35,4 +44,11 @@ class ForecastData(models.Model):
         verbose_name_plural = 'ForecastData'
 
     def __str__(self):
-        return f'{self.date} - {self.location_name}'
+        return f'{self.date}'
+
+
+# class AverageTemperatureByLocation(models.Model):
+#     location_name = models.CharField(max_length=40,null=True)
+#     average_temperature = models.FloatField(null=True)
+#     created_at = models.DateTimeField(auto_now_add=True, null=True)
+#     updated_at = models.DateTimeField(auto_now=True, null=True)
