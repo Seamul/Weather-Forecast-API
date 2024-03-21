@@ -29,7 +29,6 @@ class ForecastMetaData(models.Model):
     average_temperature = models.FloatField(null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
-    # TODO: singleton pattern
 
     class Meta:
         verbose_name_plural = 'ForecastMetaData'

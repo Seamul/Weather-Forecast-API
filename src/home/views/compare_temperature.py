@@ -1,3 +1,35 @@
+"""
+Module: compare_temperature.py
+
+This module contains an APIView class, CompareTemperature, for comparing temperatures between present and destination locations.
+
+Classes:
+- CompareTemperature: APIView class for comparing temperatures.
+
+Dependencies:
+- Django
+- Django Rest Framework
+- datetime
+- ..models: ForecastData, ForecastMetaData
+
+Usage:
+- Import CompareTemperature class and call its post method to compare temperatures between present and destination locations.
+
+Example API Call:
+POST http://0.0.0.0:8700/api/compare_temperature/
+Request Body:
+{
+  "present_location": "Dhaka",
+  "destination_location": "Gopalganj",
+  "travel_date": "2024-03-26"
+}
+
+Response:
+{
+    "Decision": "Your destination 'Gopalganj' has a cooler temperature (24.5°C) compared to present_location 'Dhaka' (28.3°C). It's suitable for travel. You should travel there"
+}
+"""
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -6,7 +38,23 @@ from ..models import ForecastData, ForecastMetaData
 
 
 class CompareTemperature(APIView):
+    """
+    APIView class for comparing temperatures between present and destination locations.
+
+    Methods:
+    - post: Handles POST requests to compare temperatures.
+    """
+
     def post(self, request):
+        """
+        Handles POST requests to compare temperatures.
+
+        Args:
+        - request (Request): HTTP request object containing present_location, destination_location, and travel_date.
+
+        Returns:
+        - Response: JSON response indicating the comparison decision.
+        """
         present_location = request.data.get('present_location')
         destination_location = request.data.get('destination_location')
 
