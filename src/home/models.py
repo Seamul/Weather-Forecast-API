@@ -1,15 +1,4 @@
 from django.db import models
-from django.db.models import Avg, FloatField
-# Create your models here.
-from django.db.models.functions import Cast
-from django.db import models
-from django.db.models import Avg
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-
-class TestModel(models.Model):
-    test_field = models.CharField(max_length=255)
 
 
 class District(models.Model):
@@ -20,6 +9,9 @@ class District(models.Model):
     long = models.CharField(max_length=40, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    def __str__(self):
+        return self.name
 
 
 class ForecastMetaData(models.Model):
@@ -33,6 +25,9 @@ class ForecastMetaData(models.Model):
     class Meta:
         verbose_name_plural = 'ForecastMetaData'
         unique_together = [['latitude', 'longitude', 'location_name']]
+
+    def __str__(self):
+        return self.location_name
 
 
 class ForecastData(models.Model):
@@ -48,4 +43,4 @@ class ForecastData(models.Model):
         unique_together = [['forecast_meta_data', 'date']]
 
     def __str__(self):
-        return f'{self.date}'
+        return f'{self.date} - {self.forecast_meta_data.location_name}'
