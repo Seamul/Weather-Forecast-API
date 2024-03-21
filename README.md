@@ -2,73 +2,106 @@
 
 ---
 
-# Django API Docker Setup
+# Weather-Forecast-API
 
-This project provides a Dockerized environment for running a Django API along with a PostgreSQL database.
 
-## Prerequisites
+This Django project serves as an API for managing district information in Bangladesh, including weather forecast data.
 
-- Docker installed on your system.
+## Introduction
 
-## Getting Started
+This API provides endpoints to retrieve information about districts in Bangladesh, including their names, coordinates, and weather forecasts. It includes functionality to update forecast data periodically using Celery tasks, but for simplicity, we'll run it manually.
 
-1. Clone the repository:
+## Features
 
+- Retrieve a list of all districts.
+- Retrieve detailed information about a specific district.
+- Access weather forecast data for each district.
+- Update forecast data periodically using Celery tasks (not implemented in this simple setup).
+
+## Technologies Used
+
+- Django>=3.1.7
+- djangorestframework>=3.12.4
+- psycopg2-binary>=2.8.6
+- openmeteo-requests>=1.2.0
+- requests-cache>=1.2.0
+- pandas
+- retry-requests>=2.0.0
+- Docker Compose
+## Setup
+
+1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/Seamul/django-drf-fresh-project.git
+   git clone https://github.com/Seamul/Weather-Forecast-API.git
+   cd Weather-Forecast-API
+
    ```
 
-2. Navigate to the project directory:
+2. **Set Up Environment Variables:**
+   - install Docker and Docker compose
 
+
+3. **Build and Run the Docker Containers:**
    ```bash
-   cd django-drf-fresh-project
+   docker-compose up --build
    ```
 
-3. Build the Docker images:
-
-   ```bash
-   docker-compose build
-   ```
-
-4. Start the services:
-
+4. **Run Database Migrations:**
    ```bash
    docker-compose up
    ```
 
-   The Django API will be accessible at [http://localhost:8700](http://localhost:8700).
+5. **Load Initial Data:**
+   ```bash
+   docker-compose up
+   ```
 
-## Configuration
 
-### PostgreSQL
+6. **Access the API:**
+   Open your web browser and go to `http://127.0.0.1:8000/` to access the API endpoints.
+   **Endpoint Description:**
 
-- **Hostname:** `django_postgres`
-- **Database Name:** `postgres`
-- **Username:** `postgres`
-- **Password:** `postgres`
-- **Port:** `5432`
+   **GET /api/update_forecast_data/**
+   
+   **Purpose:**
+   
+   This endpoint triggers an update of forecast data. The process may take some time as it involves fetching and updating the forecast data. While ideally suited for automation, this functionality can also be initiated manually for simplicity.
+   
+   **Implementation Details:**
+   
+   To ensure timely updates, the endpoint is designed to integrate with Celery and Celery Beat. This allows for scheduled execution, ensuring that forecast data is updated regularly, ideally on a daily basis. However, for simplicity, manual invocation is also supported.
+   
+   **Usage:**
+   
+   - **Manual Invocation:** Send a GET request to the specified endpoint to trigger the update process manually.
+     
+     Example: `GET /api/update_forecast_data/`
+     
+   - **Automated Execution:** With Celery and Celery Beat configured, the endpoint will be automatically invoked according to the specified schedule.
+   
+   **Note:** The update process may take some time to complete, depending on various factors such as data availability and processing speed. Therefore, patience is advised during execution.
+   
+   **Recommendation:**
+   
+   For optimal performance and reliability, it is recommended to configure Celery and Celery Beat to handle automated updates. This ensures timely and consistent updates of forecast data without manual intervention.
 
-### Django API
+## API Endpoints
 
-- **Hostname:** `django_api`
-- **Port:** `8700`
 
-## Docker Compose Services
+- `GET /api/update_forcast_data/`: Trigger an update of forecast data.
+- `GET /api/get_average_temperature/`: Get the average temperature across all districts.
+- `POST /api/compare_temperature/`: Compare the temperature between two locations on a specified travel date.
 
-- **db:** PostgreSQL container.
-- **api:** Django API container.
+### Example Request for Comparing Temperature
+```http
+POST http://0.0.0.0:8700/api/compare_temperature/
+Content-Type: application/json
 
-## Dockerfile
+{
+  "present_location": "Dhaka",
+  "destination_location": "Gopalganj",
+  "travel_date": "2024-03-26"
+}
 
-The Dockerfile sets up a Python environment, installs required dependencies, and copies the project files into the container.
 
-## Requirement File
 
-The `requirements.txt` file lists the Python packages required to run the Django API.
-
----
-
-Feel free to customize this template to add any additional information specific to your project. Make sure to replace `<repository_url>` with the actual URL of your Git repository.
-
-Let me know if you need any further assistance!
-# Weather-Forecast-API
