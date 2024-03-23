@@ -43,6 +43,7 @@ API Endpoint:
     }
 """
 
+from django.core.cache import cache
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from ..models import ForecastMetaData
@@ -64,9 +65,24 @@ class GetLowestAverageTemperatures(APIView):
         Returns:
         - Response: JSON response containing the lowest 10 average temperatures.
         """
-        lowest_temperatures = ForecastMetaData.objects.exclude(
-            average_temperature=None).order_by('average_temperature')[:10]
+        cache_key = 'lowest_average_temperatures'
+        cached_data = cache.get(cache_key)
+        
+        if cached_data:
+            source = "cache"
+            return Response({"source": source, "data": cached_data})
+        else:
+            lowest_temperatures = ForecastMetaData.objects.exclude(
+                average_temperature=None).order_by('average_temperature')[:10]
 
-        serializer = ForecastMetaDataSerializer(lowest_temperatures, many=True)
+            serializer = ForecastMetaDataSerializer(lowest_temperatures, many=True)
+            data = serializer.data
 
-        return Response({"lowest_10_average_temperatures": serializer.data})
+            # Cache the data
+            cache.set(cache_key, data, 60 * 15)  # Cache for 15 minutes
+
+            source = "database"
+            return Response({"source": source, "data": data})
+
+
+

@@ -42,6 +42,7 @@ from home.utils.help_file import OpenMeteoApiClient, WeatherDataFactory
 from home.models import District, ForecastData, ForecastMetaData
 from home.serializer import DistrictSerializer
 from datetime import datetime
+from django.core.cache import cache
 
 
 class UpdateForcastData(APIView):
@@ -91,6 +92,7 @@ class UpdateForcastData(APIView):
         """
         ForecastData.objects.all().delete()
         ForecastMetaData.objects.all().delete()
+        cache.clear()
 
     def get_districts_data(self):
         """

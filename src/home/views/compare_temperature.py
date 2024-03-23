@@ -30,6 +30,7 @@ Response:
 }
 """
 
+from django.core.cache import cache
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -58,6 +59,16 @@ class CompareTemperature(APIView):
         present_location = request.data.get('present_location')
         destination_location = request.data.get('destination_location')
 
+        cache_key = f"compare_temperature_{present_location}_{destination_location}"
+
+        # Check if data exists in cache
+        cached_response = cache.get(cache_key)
+        if cached_response:
+            # Check if request data matches cached data
+            if cached_response.get('request_data') == request.data:
+                cached_response['response_data']['source'] = 'cache'
+                return Response(cached_response['response_data'])
+
         try:
             present_location_obj = ForecastMetaData.objects.get(
                 location_name=present_location)
@@ -85,4 +96,10 @@ class CompareTemperature(APIView):
         else:
             decision = f'''Your destination '{destination_location}' does not have a cooler temperature ({destination_forecast_data.temperature_2m}°C) compared to present_location '{present_location}' ({present_forecast_data.temperature_2m}°C). It's not suitable for travel. You should not travel there'''
 
-        return Response({"Decision": decision})
+        response_data = {"Decision": decision, "source": "database"}
+
+        # Cache the response along with request data
+        cache.set(cache_key, {'request_data': request.data, 'response_data': response_data}, 60 * 15)  # Cache for 15 minutes
+
+        return Response(response_data)
+
