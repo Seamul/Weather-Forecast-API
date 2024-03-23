@@ -88,7 +88,7 @@ This API provides endpoints to retrieve information about districts in Banglades
 ## API Endpoints
 
 
-- `GET /api/update_forcast_data/`: Trigger an update of forecast data.
+- `GET /api/update_forcast_data/`: Trigger an update of forecast data. This endpoint is needed to trigger once a day to update forecast data and is not accessible to users directly.
 - `GET /api/get_average_temperature/`: Get the average temperature across all districts.
 - `POST /api/compare_temperature/`: Compare the temperature between two locations on a specified travel date.
 
