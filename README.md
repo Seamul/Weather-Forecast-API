@@ -16,7 +16,7 @@ This API provides endpoints to retrieve information about districts in Banglades
 - Retrieve a list of all districts.
 - Retrieve detailed information about a specific district.
 - Access weather forecast data for each district.
-- Update forecast data periodically using Celery beat (not implemented in this simple setup).
+- Integrate Celery for asynchronous updating of forecast data
 
 ## Technologies Used
 
