@@ -16,7 +16,7 @@ This API provides endpoints to retrieve information about districts in Banglades
 - Retrieve a list of all districts.
 - Retrieve detailed information about a specific district.
 - Access weather forecast data for each district.
-- Update forecast data periodically using Celery tasks (not implemented in this simple setup).
+- Integrate Celery for asynchronous updating of forecast data
 
 ## Technologies Used
 
@@ -25,8 +25,10 @@ This API provides endpoints to retrieve information about districts in Banglades
 - psycopg2-binary>=2.8.6
 - openmeteo-requests>=1.2.0
 - requests-cache>=1.2.0
-- pandas
+- pandas>=2.0.0
 - retry-requests>=2.0.0
+- celery>=5.3.6
+- django-celery-beat>=2.6.0
 - Docker Compose
 ## Setup
 
@@ -46,20 +48,14 @@ This API provides endpoints to retrieve information about districts in Banglades
    docker-compose up --build
    ```
 
-4. **Run Database Migrations:**
-   ```bash
-   docker-compose up
-   ```
-
-5. **Load Initial Data:**
-The latitude and longitude of all the districts of Bangladesh will be stored in database.
+4. **Run Database Migrations and Load Initial Districts Data:**
    ```bash
    docker-compose up
    ```
 
 
-6. **Access the API:**
-   Open your web browser and go to `http://127.0.0.1:8000/` to access the API endpoints.
+5. **Access the API:**
+   Open your web browser and go to `http://0.0.0.0:8700/` to access the API endpoints.
    **Endpoint Description:**
 
    **GET /api/update_forecast_data/**
@@ -78,7 +74,6 @@ The latitude and longitude of all the districts of Bangladesh will be stored in 
      
      Example: `GET /api/update_forecast_data/`
      
-   - **Automated Execution:** With Celery and Celery Beat configured, the endpoint will be automatically invoked according to the specified schedule.
    
    **Note:** The update process may take some time to complete, depending on various factors such as data availability and processing speed. Therefore, patience is advised during execution.
    
