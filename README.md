@@ -81,6 +81,8 @@ This API provides endpoints to retrieve information about districts in Banglades
    
    For optimal performance and reliability, it is recommended to configure Celery and Celery Beat to handle automated updates. This ensures timely and consistent updates of forecast data without manual intervention.
 
+
+  
 ## API Endpoints
 
 
@@ -98,6 +100,14 @@ Content-Type: application/json
   "destination_location": "Gopalganj",
   "travel_date": "2024-03-26"
 }
+```
+
+## Access Credentials
+
+To access the system Admin
+
+- **Username:** admin
+- **Password:** admin_password
 
 
 
