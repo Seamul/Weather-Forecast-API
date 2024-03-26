@@ -7,4 +7,3 @@ pandas>=2.0.0
 retry-requests>=2.0.0
 celery>=5.3.6
 django-celery-beat>=2.6.0
-redis>=3.5.3

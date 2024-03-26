@@ -10,9 +10,9 @@ def run_forecast_update(self):
     """
     Orchestrates the workflow to update forecast data.
     """
-    print("--------------start updating forecast data------------")
+    print("==============Initiated forecast data update process===================")
     districts_data = get_districts_data()
     forecast_update_command = ForecastUpdateCommand(districts_data)
     forecast_update_command.execute()
-    print("---------updated forecast data--------")
+    print("=================Forecast data update process completed=================")
     return "Forecast data updated successfully"
