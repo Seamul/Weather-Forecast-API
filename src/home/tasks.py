@@ -2,7 +2,8 @@
 
 from celery import shared_task
 
-from home.utils.forecast_update_helper import get_districts_data, ForecastUpdateCommand
+from home.utils.forecast_update_helper import ForecastUpdateCommand
+from home.utils.districts_data_helper import get_districts_data
 
 
 @shared_task(bind=True)
