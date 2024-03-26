@@ -99,5 +99,13 @@ Content-Type: application/json
   "travel_date": "2024-03-26"
 }
 
+## Access Credentials
+
+To access the system, you will need valid login credentials. 
+
+- **Username:** admin
+- **Password:** admin_password
+
+
 
 
