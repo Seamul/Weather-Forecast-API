@@ -58,7 +58,7 @@ This API provides endpoints to retrieve information about districts in Banglades
    Open your web browser and go to `http://0.0.0.0:8700/` to access the API endpoints.
    **Endpoint Description:**
 
-   **GET /api/update_forecast_data/**
+   **POST /api/update_forecast_data/**
    
    **Purpose:**
    
@@ -70,9 +70,9 @@ This API provides endpoints to retrieve information about districts in Banglades
    
    **Usage:**
    
-   - **Manual Invocation:** Send a GET request to the specified endpoint to trigger the update process manually.
+   - **Manual Invocation:** Send a POST request to the specified endpoint to trigger the update process manually.
      
-     Example: `GET /api/update_forecast_data/`
+     Example: `POST /api/update_forecast_data/`
      
    
    **Note:** The update process may take some time to complete, depending on various factors such as data availability and processing speed. Therefore, patience is advised during execution.
@@ -86,7 +86,7 @@ This API provides endpoints to retrieve information about districts in Banglades
 ## API Endpoints
 
 
-- `GET /api/update_forcast_data/`: Trigger an update of forecast data. This endpoint is needed to trigger once a day to update forecast data and is not accessible to users directly.
+- `POST /api/update_forcast_data/`: Trigger an update of forecast data. This endpoint is needed to trigger once a day to update forecast data and is not accessible to users directly.
 - `GET /api/get_average_temperature/`: Get the average temperature across all districts.
 - `POST /api/compare_temperature/`: Compare the temperature between two locations on a specified travel date.
 
