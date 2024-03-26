@@ -33,7 +33,25 @@ services:
     ports:
       - 8700:8700
     depends_on:
-    - db
-
-
- 
+      - db
+  worker:
+    image: django_api
+    hostname: django_api_worker
+    container_name: django_api_worker
+    command: >
+      sh -c "celery -A django_api.celery worker -B -l INFO --autoscale=10,4"
+    volumes:
+      - ./src:/app
+    depends_on:
+      - api
+      - rabbitmq
+  rabbitmq:
+    hostname: rabbitmq
+    container_name: rabbitmq
+    image: rabbitmq:3.8-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=qweqwe123
+    ports:
+      - "5672:5672"
+      - "15672:15672"
