@@ -11,7 +11,7 @@ class UpdateForcastData(APIView):
     - get: Handles GET requests to update forecast data.
     """
 
-    def get(self, request):
+    def post(self, request):
         """
         Handles GET requests to update forecast data.
 

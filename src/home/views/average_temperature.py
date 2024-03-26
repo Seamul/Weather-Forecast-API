@@ -1,8 +1,48 @@
+"""
+Module: get_lowest_average_temperatures.py
+
+This module contains an APIView class, GetLowestAverageTemperatures, for retrieving the lowest average temperatures from forecast metadata.
+
+Classes:
+- GetLowestAverageTemperatures: APIView class for retrieving the lowest average temperatures.
+
+Dependencies:
+- Django
+- Django Rest Framework
+- datetime
+- ..models: ForecastData, ForecastMetaData
+- ..serializer: ForecastMetaDataSerializer
+- json
+
+Usage:
+- Import GetLowestAverageTemperatures class and call its get method to retrieve the lowest average temperatures.
+
+Example API Call:
+GET http://0.0.0.0:8700/api/get_average_temperature/
+
+Response:
+{
+    "source": "cache",
+    "data": [
+        {
+            "location_name": "Location1",
+            "average_temperature": 20.5
+        },
+        {
+            "location_name": "Location2",
+            "average_temperature": 21.0
+        },
+        ...
+    ]
+}
+"""
+
+# get_lowest_average_temperatures.py
+
 from django.core.cache import cache
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from datetime import datetime
 from ..models import ForecastData, ForecastMetaData
 from ..serializer import ForecastMetaDataSerializer
 import json
@@ -39,3 +79,4 @@ class GetLowestAverageTemperatures(APIView):
 
             source = "database"
             return Response({"source": source, "data": data})
+
