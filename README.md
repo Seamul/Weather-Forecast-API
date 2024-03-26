@@ -25,8 +25,10 @@ This API provides endpoints to retrieve information about districts in Banglades
 - psycopg2-binary>=2.8.6
 - openmeteo-requests>=1.2.0
 - requests-cache>=1.2.0
-- pandas
+- pandas>=2.0.0
 - retry-requests>=2.0.0
+- celery>=5.3.6
+- django-celery-beat>=2.6.0
 - Docker Compose
 ## Setup
 
