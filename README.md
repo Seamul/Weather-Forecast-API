@@ -52,6 +52,7 @@ This API provides endpoints to retrieve information about districts in Banglades
    ```
 
 5. **Load Initial Data:**
+The latitude and longitude of all the districts of Bangladesh will be stored in database.
    ```bash
    docker-compose up
    ```
