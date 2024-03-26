@@ -30,32 +30,17 @@ Response:
 }
 """
 
-from django.core.cache import cache
+# views.py
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.core.cache import cache
 from datetime import datetime
 from ..models import ForecastData, ForecastMetaData
 
-
 class CompareTemperature(APIView):
-    """
-    APIView class for comparing temperatures between present and destination locations.
-
-    Methods:
-    - post: Handles POST requests to compare temperatures.
-    """
-
     def post(self, request):
-        """
-        Handles POST requests to compare temperatures.
-
-        Args:
-        - request (Request): HTTP request object containing present_location, destination_location, and travel_date.
-
-        Returns:
-        - Response: JSON response indicating the comparison decision.
-        """
         present_location = request.data.get('present_location')
         destination_location = request.data.get('destination_location')
 
@@ -72,6 +57,7 @@ class CompareTemperature(APIView):
         try:
             present_location_obj = ForecastMetaData.objects.get(
                 location_name=present_location)
+                
             destination_location_obj = ForecastMetaData.objects.get(
                 location_name=destination_location)
         except ForecastMetaData.DoesNotExist:
@@ -79,9 +65,11 @@ class CompareTemperature(APIView):
 
         travel_date = request.data.get('travel_date')
 
-        travel_datetime = datetime.strptime(travel_date, "%Y-%m-%d")
-        travel_datetime = travel_datetime.replace(
-            hour=14)  # Set the time to 14:00:00
+        try:
+            travel_datetime = datetime.strptime(travel_date, "%Y-%m-%d")
+            travel_datetime = travel_datetime.replace(hour=14)  # Set the time to 14:00:00
+        except ValueError:
+            return Response({"error": "Invalid date format. Please provide date in YYYY-MM-DD format."}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             present_forecast_data = ForecastData.objects.get(
@@ -101,5 +89,8 @@ class CompareTemperature(APIView):
         # Cache the response along with request data
         cache.set(cache_key, {'request_data': request.data, 'response_data': response_data}, 60 * 15)  # Cache for 15 minutes
 
-        return Response(response_data)
+        return Response(response_data, status=status.HTTP_200_OK)
+
+
+
 
