@@ -80,12 +80,7 @@ This API provides endpoints to retrieve information about districts in Banglades
    **Recommendation:**
    
    For optimal performance and reliability, it is recommended to configure Celery and Celery Beat to handle automated updates. This ensures timely and consistent updates of forecast data without manual intervention.
-## Access Credentials
 
-To access the system Admin
-
-- **Username:** admin
-- **Password:** admin_password
 
   
 ## API Endpoints
@@ -107,7 +102,12 @@ Content-Type: application/json
 }
 ```
 
+## Access Credentials
 
+To access the system Admin
+
+- **Username:** admin
+- **Password:** admin_password
 
 
 
