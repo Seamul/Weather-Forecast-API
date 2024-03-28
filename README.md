@@ -106,8 +106,8 @@ Content-Type: application/json
 
 To access the system Admin
 
-- **Username:** admin
-- **Password:** admin_password
+- **email:** admin@admin.com
+- **Password:** admin@123
 
 
 
