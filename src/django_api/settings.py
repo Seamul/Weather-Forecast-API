@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'home',
     'rest_framework',
     'django_celery_beat',
+    'authentication'
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,9 @@ CELERY_TIMEZONE = 'Asia/Dhaka'
 CELERY_BROKER_URL='amqp://admin:qweqwe123@rabbitmq:5672/'
 CELERY_RESULT_BACKEND = False
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+
+# Custom User Model
+# https://docs.djangoproject.com/en/3.1/topics/auth/customizing/#auth-custom-user
+
+AUTH_USER_MODEL = 'authentication.AuthUser'

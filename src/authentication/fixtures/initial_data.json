@@ -1,0 +1,19 @@
+[
+    {
+      "model": "authentication.AuthUser",
+      "pk": 1,
+      "fields": {
+        "password": "pbkdf2_sha256$600000$IkugDU0ALjGMLgT9h6X2sg$/50EEDjj5AQscsFRp8VZpYeTh40qjXqAol6+Sbzxbvg=",
+        "last_login": null,
+        "is_superuser": true,
+        "name": "Admin",
+        "is_staff": true,
+        "is_active": true,
+        "is_verified": true,
+        "email": "admin@admin.com",
+        "groups": [],
+        "user_permissions": [],
+        "user_type": "admin"
+      }
+    }
+  ]

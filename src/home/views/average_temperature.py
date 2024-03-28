@@ -78,5 +78,6 @@ class GetLowestAverageTemperatures(APIView):
             cache.set(cache_key, json.dumps(data), 60 * 15)  # Cache for 15 minutes
 
             source = "database"
+
             return Response({"source": source, "data": data})
 

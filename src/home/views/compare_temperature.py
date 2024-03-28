@@ -88,7 +88,7 @@ class CompareTemperature(APIView):
 
         # Cache the response along with request data
         cache.set(cache_key, {'request_data': request.data, 'response_data': response_data}, 60 * 15)  # Cache for 15 minutes
-
+        
         return Response(response_data, status=status.HTTP_200_OK)
 
 
