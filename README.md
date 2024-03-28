@@ -92,6 +92,14 @@ This API provides endpoints to retrieve information about districts in Banglades
 
 ### Example Request for Comparing Temperature
 ```http
+POST http://0.0.0.0:8700/api/update_forcast_data/
+Content-Type: application/json
+
+{
+    "forecast_url":"https://api.open-meteo.com/v1/forecast"
+}
+```
+```http
 POST http://0.0.0.0:8700/api/compare_temperature/
 Content-Type: application/json
 
