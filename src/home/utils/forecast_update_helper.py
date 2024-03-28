@@ -1,17 +1,3 @@
-"""
-Forecast Update Command
-
-This module provides functionality to update forecast data for districts.
-
-Classes:
-- ForecastUpdateCommand: Class to execute the forecast update command.
-
-Functions:
-- delete_existing_forecast_data: Function to delete existing forecast data from the database.
-- get_or_create_forecast_meta_data: Function to retrieve or create forecast metadata for a district.
-- save_weather_data: Function to save weather data for a district.
-"""
-
 import requests_cache
 from retry_requests import retry
 from home.utils.weather_data_helper import OpenMeteoApiClient, WeatherDataFactory
@@ -23,20 +9,25 @@ from django.core.cache import cache
 
 class ForecastUpdateCommand:
     """
-    A class to execute the forecast update command.
+    Class to execute the forecast update command.
+
+    This class orchestrates the process of updating forecast data for districts.
 
     Attributes:
     - districts_data (list): List of district data.
+    - forecast_url (str): URL to fetch forecast data.
     """
 
-    def __init__(self, districts_data):
+    def __init__(self, districts_data, forecast_url):
         """
-        Initializes the ForecastUpdateCommand with districts_data.
+        Initializes the ForecastUpdateCommand with districts_data and forecast_url.
 
         Args:
         - districts_data (list): List of district data.
+        - forecast_url (str): URL to fetch forecast data.
         """
         self.districts_data = districts_data
+        self.forecast_url = forecast_url
 
     def execute(self):
         """
@@ -61,8 +52,7 @@ class ForecastUpdateCommand:
         Fetches weather data for each district and saves it to the database.
         """
         for district_data in self.districts_data:
-            forecast_meta_data = self._get_or_create_forecast_meta_data(
-                district_data)
+            forecast_meta_data = self._get_or_create_forecast_meta_data(district_data)
             self._save_weather_data(forecast_meta_data)
 
     def _get_or_create_forecast_meta_data(self, district_data):
@@ -89,8 +79,7 @@ class ForecastUpdateCommand:
         Args:
         - forecast_meta_data (ForecastMetaData): Forecast metadata instance.
         """
-        weather_data_factory = WeatherDataFactory(
-            OpenMeteoApiClient(session=self._get_retry_session()))
+        weather_data_factory = WeatherDataFactory(self.forecast_url, OpenMeteoApiClient(session=self._get_retry_session()))
         weather_data = weather_data_factory.get_weather_data(
             float(forecast_meta_data.latitude),
             float(forecast_meta_data.longitude),
@@ -114,7 +103,9 @@ class ForecastUpdateCommand:
     def _get_retry_session(self):
         """
         Returns a retry-enabled session for making API requests.
+
+        Returns:
+        - requests.Session: Retry-enabled session.
         """
-        cache_session = requests_cache.CachedSession(
-            '.cache', expire_after=3600)
+        cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
         return retry(cache_session, retries=5, backoff_factor=0.2)
